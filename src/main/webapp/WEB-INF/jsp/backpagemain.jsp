@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/css/font-awesome.min.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/css/main.css">
@@ -22,12 +21,13 @@
 	.tree-expanded {
 	    height : auto;
 	}
+	a:link{
+		text-decoration:none;
+	}
 	</style>
   </head>
-
   <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color:#6CF;color:#FFF;" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
           <div><a class="navbar-brand" style="font-size:32px;" href="#">大众购物 - 后台控制面板</a></div>
@@ -57,74 +57,26 @@
 			<div class="tree">
 				<ul style="padding-left:0px;" class="list-group">
 					<li class="list-group-item tree-closed">
-						<span><i class="glyphicon glyphicon glyphicon-tasks"></i> 分类管理 <span class="badge" style="float:right">4</span></span> 
-						<ul style="margin-top:10px;display:none;">
-							<li style="height:30px;">
-								<a href="user.html"><i class="glyphicon glyphicon-user"></i> 添加分类</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="role.html"><i class="glyphicon glyphicon-king"></i> 编辑分类</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="permission.html"><i class="glyphicon glyphicon-lock"></i> 查询分类</a> 
-							</li>					
-							<li style="height:30px;">
-								<a href="permission.html"><i class="glyphicon glyphicon-lock"></i> 删除分类</a> 
-							</li>
-						</ul>
+						<span>
+							<a href="${pageContext.request.contextPath }/category/categorymain" target="name"><i class="glyphicon glyphicon glyphicon-tasks"></i> 分类管理 </a>
+						</span>
 					</li>
 					<li class="list-group-item tree-closed">
-						<span><i class="glyphicon glyphicon-ok"></i> 商品管理 <span class="badge" style="float:right">4</span></span> 
-						<ul style="margin-top:10px;display:none;">
-							<li style="height:30px;">
-								<a href="auth_cert.html"><i class="glyphicon glyphicon-check"></i> 下架商品</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="auth_adv.html"><i class="glyphicon glyphicon-check"></i> 添加商品</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="auth_project.html"><i class="glyphicon glyphicon-check"></i> 编辑商品</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="auth_project.html"><i class="glyphicon glyphicon-check"></i> 查询商品</a> 
-							</li>
-						</ul>
+						<a href="${pageContext.request.contextPath }/product/productmain" target="name"><i class="glyphicon glyphicon-gift"></i> 商品管理 </a> 
 					</li>
 					<li class="list-group-item tree-closed">
-						<span><i class="glyphicon glyphicon-th-large"></i> 订单管理 <span class="badge" style="float:right">2</span></span> 
-						<ul style="margin-top:10px;display:none;">
-							<li style="height:30px;">
-								<a href="cert.html"><i class="glyphicon glyphicon-picture"></i> 查看订单</a> 
-							</li>
-							<li style="height:30px;">
-								<a href="type.html"><i class="glyphicon glyphicon-equalizer"></i> 编辑订单</a> 
-							</li>
-						</ul>
+						<a href="${pageContext.request.contextPath }/product/productmain" target="name"><i class="glyphicon glyphicon-ok"></i> 订单管理 </a> 
 					</li>
 				</ul>
 			</div>
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">后台面板</h1>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="height:600px;">
+          <iframe frameborder="0" name="name" height="100%" width="100%"></iframe>
         </div>
       </div>
     </div>
     <script src="${pageContext.request.contextPath }/jquery/jquery-2.1.1.min.js"></script>
     <script src="${pageContext.request.contextPath }/bootstrap/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath }/script/docs.min.js"></script>
-        <script type="text/javascript">
-            $(function () {
-			    $(".list-group-item").click(function(){
-				    if ( $(this).find("ul") ) {
-						$(this).toggleClass("tree-closed");
-						if ( $(this).hasClass("tree-closed") ) {
-							$("ul", this).hide("fast");
-						} else {
-							$("ul", this).show("fast");
-						}
-					}
-				});
-            });
-        </script>
   </body>
 </html>

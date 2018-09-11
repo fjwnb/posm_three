@@ -18,7 +18,8 @@ public class adminController {
 	private UserService userService;
 	@RequestMapping("/adminlogin")
 	public String login() {
-		return "adminlogin";
+		//return "adminlogin";
+		return "adLogin";
 	}
 	@ResponseBody
 	@RequestMapping("/doAJAXLogin")

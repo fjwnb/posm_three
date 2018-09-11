@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.posm.dao.ProductDao">
+	<select id="getBycid" resultType="Product">
+		select * from product where cid=#{cid}
+	</select>
+	<resultMap type="Product" id="query">
+		<id column="id" property="id"/>
+		<result property="name" column="name"/>
+		<result property="market_price" column="market_price"/>
+		<result property="shop_price" column="shop_price"/>
+		<result property="image" column="image"/>
+		<result property="pdate" column="pdate"/>
+		<result property="desc" column="desc"/>
+		<result property="cname" column="cname"/>
+	</resultMap>
+	<select id="pageQueryData" resultMap="query">
+        select
+           a.*,b.name as cname 
+        from Product a,category b where a.cid=b.id
+        <if test="queryText != null">
+           and a.name like concat('%', #{queryText}, '%')
+        </if>
+        limit #{start}, #{size}
+    </select>
+    <select id="pageQueryCount" resultType="int">
+        select
+            count(*)
+        from Product where 1=1
+      
+        <if test="queryText != null">
+             name like concat('%', #{queryText}, '%')
+        </if>
+    </select>
+    <insert id="addProcut"	parameterType="Product">
+    	insert into product(name,market_price,shop_price,image,pdate,pdesc,cid)
+    	values(#{name},#{market_price},#{shop_price},#{image},#{pdate},#{pdesc},#{cid})
+    </insert>
+    <update id="flagproduct">
+    	update product set 
+    		<if test="flag==1">
+    			flag=2
+    		</if>
+    		<if test="flag==2">
+    			flag=1
+    		</if>	
+    	 where id=#{id}
+    </update>
+    <select id="getByid" resultType="Product">
+    	select * from product where id=#{id}
+    </select>
+    <update id="update" parameterType="Product">
+    	update product set market_price=#{market_price},
+    	shop_price=#{shop_price},
+    	pdate=#{pdate},pdesc=#{pdesc} where id=#{id}
+    </update>
+    <select id="getAllHot" resultType="Product">
+    	select * from product where is_hot=1 and flag=1
+    </select>
+    <select id="getAllCheap" resultType="Product">
+    	select * from product where Shop_price&lt;=100 and flag=1
+    </select>
+    <select id="getAll" resultType="Product">
+    	select * from product where flag=1
+    	<if test="queryText!=null and queryText!=''">
+    		and name like concat('%',#{queryText},'%')
+    	</if>
+    	<if test="id!=null">
+    		and cid=#{id}
+    	</if>
+    	<if test="hot!=null and hot!=''">
+    		and is_hot=1
+    	</if>
+    	<if test="special!=null and special!=''">
+    		and Shop_price&lt;=100
+    	</if>
+    	<if test="cid!=null">
+    		and cid=#{cid}
+    	</if>
+    </select>
+    <delete id="deleteByid">
+    	delete from product where id=#{id}
+    </delete>
+</mapper>

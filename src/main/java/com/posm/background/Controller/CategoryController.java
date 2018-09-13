@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import com.posm.util.Page;
 @Controller
 @RequestMapping("/category")
 public class CategoryController {
+	private Logger log=Logger.getLogger(CategoryController.class);
 	@Autowired
 	private CategoryService categoryService;
 	@Autowired
@@ -73,7 +75,7 @@ public class CategoryController {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("start", (pageno-1)*pagesize);
 			map.put("size", pagesize);
-			map.put("queryText", queryText);
+			map.put("queryText",queryText);
 			List<Category> categorys = categoryService.pageQueryData( map );
 			// 当前页码			
 			// 总的数据条数

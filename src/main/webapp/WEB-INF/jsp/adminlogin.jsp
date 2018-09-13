@@ -60,7 +60,7 @@
         var loadingIndex = null;
         $.ajax({
         	type : "POST",
-        	url  : "doAJAXLogin",
+        	url  : "${pageContext.request.contextPath }/admin/doAJAXLogin",
         	data : {
         		"username" : username,
         		"password"  : password
@@ -70,9 +70,13 @@
         	},
         	success : function(result) {
         		layer.close(loadingIndex);
-        		if (result.success) {
+        		if (result=="true") {
         			window.location.href = "${pageContext.request.contextPath }/admin/backpagemain";
-        		} else {
+        		}else if(result=="no"){
+					layer.msg("抱歉，你的权限不足", {time:2000, icon:5, shift:6}, function(){
+                    	
+                    });
+        		}else {
                     layer.msg("用户登录账号或密码不正确，请重新输入", {time:2000, icon:5, shift:6}, function(){
                     	
                     });

@@ -59,9 +59,13 @@
         	},
         	success : function(result) {
         		layer.close(loadingIndex);
-        		if (result.success) {
-        			window.location.href = "backpagemain";
-        		} else {
+        		if (result=="true") {
+        			window.location.href = "${pageContext.request.contextPath }/admin/backpagemain";
+        		}else if(result=="no"){
+					layer.msg("抱歉，你的权限不足", {time:2000, icon:5, shift:6}, function(){
+                    	
+                    });
+        		}else {
                     layer.msg("用户登录账号或密码不正确，请重新输入", {time:2000, icon:5, shift:6}, function(){
                     	
                     });

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.posm.dao.CartDao">
+	<insert id="add">
+		insert into cart(pid,uid,subtotal,num) values(#{pid},#{uid},#{subtotal},#{num})
+	</insert>
+	<update id="update">
+		update cart set subtotal=subtotal+#{subtotal},num=num+#{num} where uid=#{uid} and pid=#{pid}
+	</update>
+	<select id="getCart" resultType="Cart">
+		select * from cart where uid=#{uid}
+	</select>
+	<update id="jia">
+		update cart set subtotal=subtotal+#{shop_price},num=num+1 where uid=#{uid} and pid=#{pid}
+	</update>
+	<update id="jian">
+		update cart set subtotal=subtotal-#{shop_price},num=num-1 where uid=#{uid} and pid=#{pid}
+	</update>
+	<delete id="delete">
+		delete from cart where uid=#{uid} and pid=#{pid}
+	</delete>
+	<select id="getOrdersCart" parameterType="java.util.Map" resultType="Cart">
+		select * from cart where uid=#{uid} and pid in
+		<foreach collection="pids" item="pid" index="index"
+            open="(" close=")" separator=",">
+            #{pid}
+        </foreach>
+	</select>
+	<delete id="deletePiliang" parameterType="java.util.Map">
+		delete from cart where uid=#{uid} and pid in
+		<foreach collection="pids" item="pid" index="index"
+            open="(" close=")" separator=",">
+            #{pid}
+        </foreach>
+	</delete>
+</mapper>

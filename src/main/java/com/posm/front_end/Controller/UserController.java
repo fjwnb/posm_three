@@ -2,6 +2,7 @@ package com.posm.front_end.Controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.posm.util.AJAXResult;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	private Logger log=Logger.getLogger(UserController.class);
 	@Autowired
 	private UserService userService;
 	@RequestMapping("/login")
@@ -37,6 +39,6 @@ public class UserController {
 	public String logout(HttpSession session){
 		session.removeAttribute("user");
 		session.removeAttribute("cart");
-		return "store/storeIndex";
+		return "redirect:/store/index";
 	}
 }

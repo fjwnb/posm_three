@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.posm.dao.OrdersDao">
+	<insert id="add" parameterType="Orders" useGeneratedKeys="true" keyProperty="id">
+		insert into orders(coding,total,orderTime,uid,aid) values(#{coding},#{total},#{orderTime},#{uid},#{aid})
+	</insert>
+	<resultMap type="Orders" id="query">
+		<id column="id" property="id"/>
+		<result column="orderTime" property="orderTime"/>
+		<result column="total" property="total"/>
+		<result column="coding" property="coding"/>
+		<association property="address" javaType="Address">
+			<result column="address" property="address"/>
+			<result column="tel" property="tel"/>
+			<result column="name" property="name"/>
+		</association>
+	</resultMap>
+	<select id="pageQueryData" resultMap="query">
+        select
+           a.*,b.address,b.tel,b.name
+        from orders a,address b where a.aid=b.id
+        <if test="queryText != null and queryText !='' ">
+           and a.coding like concat('%', #{queryText},'%')
+        </if>
+        limit #{start}, #{size}
+    </select>
+    <select id="pageQueryCount" resultType="int">
+        select
+            count(*)
+        from orders where 1=1
+        <if test="queryText != null and queryText !=''">
+            and  coding like concat('%', #{queryText}, '%')
+        </if>
+    </select>
+</mapper>

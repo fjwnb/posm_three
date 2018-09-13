@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,7 @@ import com.posm.util.Page;
 @Controller
 @RequestMapping("product")
 public class ProductController extends BaseController{
+	private Logger log=Logger.getLogger(ProductController.class);
 	@Autowired
 	private ProductService productService;
 	@Autowired

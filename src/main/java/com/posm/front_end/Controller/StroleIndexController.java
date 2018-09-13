@@ -3,6 +3,7 @@ package com.posm.front_end.Controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import com.posm.util.Store;
 @Controller
 @RequestMapping("/store")
 public class StroleIndexController extends BaseController{
+	private Logger log=Logger.getLogger(StroleIndexController.class);
 	@Autowired
 	private CategoryService categoryService;
 	@Autowired

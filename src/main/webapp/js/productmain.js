@@ -90,7 +90,7 @@
             				$("#productData").html(tableContent);
             				$(".pagination").html(pageContent);
             			} else {
-                            layer.msg("用户信息分页查询失败", {time:2000, icon:5, shift:6}, function(){
+                            layer.msg("查询失败", {time:2000, icon:5, shift:6}, function(){
                             	
                             });
             			}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.posm.dao.OrderItemDao">
+	<insert id="add" parameterType="OrderItem">
+		insert into orderitem(count,subtotal,pid,oid) values(#{count},#{subtotal},#{pid},#{oid})
+	</insert>
+	<resultMap type="OrderItem" id="s">
+		<id column="id" property="id"/>
+		<result column="count" property="count"/>
+		<result column="subtotal" property="subtotal"/>
+		<result column="pname" property="pname"/>
+	</resultMap>
+	<select id="detailed" resultMap="s">
+		select a.*,b.name as pname from orderitem a,product b where a.pid=b.id
+		and a.oid=#{oid}
+	</select>
+</mapper>

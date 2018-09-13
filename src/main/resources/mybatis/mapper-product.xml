@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
            a.*,b.name as cname 
         from Product a,category b where a.cid=b.id
         <if test="queryText != null">
-           and a.name like concat('%', #{queryText}, '%')
+        and a.name like concat('%', #{queryText},'%')
         </if>
         limit #{start}, #{size}
     </select>
@@ -31,10 +31,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from Product where 1=1
       
         <if test="queryText != null">
-             name like concat('%', #{queryText}, '%')
+            and name like concat('%', #{queryText}, '%')
         </if>
     </select>
-    <insert id="addProcut"	parameterType="Product">
+    <insert id="addProcut"	parameterType="Product" useGeneratedKeys="true" keyProperty="id">
     	insert into product(name,market_price,shop_price,image,pdate,pdesc,cid)
     	values(#{name},#{market_price},#{shop_price},#{image},#{pdate},#{pdesc},#{cid})
     </insert>

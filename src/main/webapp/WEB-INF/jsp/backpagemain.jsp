@@ -37,7 +37,7 @@
             <li style="margin-left:10px;padding-top:8px;">
 				<div class="btn-group">
 				  <button type="button" class="btn btn-default btn-success dropdown-toggle" data-toggle="dropdown">
-					<i class="glyphicon glyphicon-user"></i> ${admin.name } <span class="caret"></span>
+					<i class="glyphicon glyphicon-user"></i> ${admin.name }<span class="caret"></span>
 				  </button>
 					  <ul class="dropdown-menu" role="menu">
 						<li><a href="#"><i class="glyphicon glyphicon-cog"></i> 个人设置</a></li>
@@ -65,7 +65,7 @@
 						<a href="${pageContext.request.contextPath }/product/productmain" target="name"><i class="glyphicon glyphicon-gift"></i> 商品管理 </a> 
 					</li>
 					<li class="list-group-item tree-closed">
-						<a href="${pageContext.request.contextPath }/product/productmain" target="name"><i class="glyphicon glyphicon-ok"></i> 订单管理 </a> 
+						<a href="${pageContext.request.contextPath }/adminorder/ordermain" target="name"><i class="glyphicon glyphicon-ok"></i> 订单管理 </a> 
 					</li>
 				</ul>
 			</div>

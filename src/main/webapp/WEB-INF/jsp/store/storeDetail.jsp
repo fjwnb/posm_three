@@ -19,7 +19,7 @@
 	<div class="header">
 		<div class="headertop_desc">
 			<div class="call">
-				 <p><span>需要帮助?</span> 打我电话 <span class="number">1-22-3456789</span></span></p>
+				 当前城市:<span id="city"></span>&nbsp;<span id="tianqi"></span>
 			</div>
 			<div class="account_desc">
 				<ul>
@@ -33,7 +33,14 @@
 					</li>
 					<li><a href="#">查看</a>
 					</li>
-					<li><a href="${pageContext.request.contextPath }/cart/tocart">我的购物车</a></li>
+					<li>
+						<c:if test="${user==null}">
+							<a href="${pageContext.request.contextPath }/user/login">我的购物车</a>
+						</c:if>
+						<c:if test="${user!=null}">
+							<a href="${pageContext.request.contextPath }/cart/tocart">我的购物车</a>
+						</c:if>
+					</li>
 				</ul>
 			</div>
 			<div class="clear"></div>
@@ -148,8 +155,26 @@
 <script type="text/javascript">
 $(function(){
 	dd();
+	$.ajax({
+		url:"http://restapi.amap.com/v3/ip?key=6830bd278765a3715bda9c4de2b972d3",
+		success:function(e){
+			console.log(e);
+			var city=e.city;
+			var province=e.province;
+			$("#city").text(province+city);
+			$.ajax({
+					url:"https://restapi.amap.com/v3/weather/weatherInfo?&key=6830bd278765a3715bda9c4de2b972d3&city="+city,
+					success:function(e){
+						var weather=e.lives[0].weather;
+						var temperature=e.lives[0].temperature;
+						var reporttime=e.lives[0].reporttime;
+						$("#tianqi").text(weather+" "+temperature+"℃"+"  数据发布的时间:"+reporttime);
+					}
+			})	
+		}
+	})
 	$(".addcart").click(function(){
-		var id=$(this).attr("addcartid");
+		var pid=$(this).attr("addcartid");
 		var userlogin=$("#userlogin").text();
 		if(userlogin==""){
 			window.location.href="${pageContext.request.contextPath }/user/login";
@@ -158,7 +183,7 @@ $(function(){
 	        	type : "POST",
 	        	url  : "${pageContext.request.contextPath }/cart/addcart",
 	        	data : {
-	        		"id" : id,
+	        		"pid" : pid,
 	        	},
 	        	success : function(result) {
 	        		if (result=="true") {
@@ -186,19 +211,21 @@ $(function(){
         	url  : "${pageContext.request.contextPath }/cart/getcart",
         	data : {},
         	success : function(result) {	
-        		var total=result.total;
-        		var tableContent="";
-        		$("#detail").text(total);
-       			$("#oncart").remove();
-       			$(".carttable").show();
-				$.each(result.cartItems, function(i, c){
-					tableContent += '<tr>';
-   	               	tableContent += '  <td align="center"><img width="50px" height="50px" src="'+c.product.image+'"><br/>'+c.product.name+'</td>';
-					tableContent += '  <td>'+c.count+'</td>';
-					tableContent += '  <td>'+c.subtotal+'</td>';
-					tableContent += '<td>';
-				});
-       			$("#cartData").html(tableContent);
+        		if(result.bl){
+	        		var total=result.total;
+	        		var tableContent="";
+	        		$("#detail").text(total);
+	       			$("#oncart").remove();
+	       			$(".carttable").show();
+					$.each(result.cartItems, function(i, c){
+						tableContent += '<tr>';
+	   	               	tableContent += '  <td align="center"><img width="50px" height="50px" src="'+c.product.image+'"><br/>'+c.product.name+'</td>';
+						tableContent += '  <td>'+c.num+'</td>';
+						tableContent += '  <td>'+c.subtotal+'</td>';
+						tableContent += '<td>';
+					});
+	       			$("#cartData").html(tableContent);
+        		}
         	}
         });
 		

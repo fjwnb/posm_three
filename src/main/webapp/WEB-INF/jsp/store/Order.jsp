@@ -1,4 +1,4 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -17,6 +17,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/global.css">
 <script src="${pageContext.request.contextPath }/js/slides.min.jquery.js"></script>
 <script src="${pageContext.request.contextPath }/layer/layer.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/tasp.css" />
+<link href="${pageContext.request.contextPath }/css/orderconfirm.css" rel="stylesheet" />
 <style type="text/css">
 	.main .content .row{
 		margin:40px 0px;
@@ -58,6 +60,7 @@
 				<a href="${pageContext.request.contextPath }/store/index"><img src="${pageContext.request.contextPath }/images/logo.png" alt="" /></a>
 			</div>
 			 <div class="cart">
+			 	  <input type="hidden" id="uid" value="${user.id}"/>
 			  	  <p>欢迎来到大众商城! <span>${user.name}</span><div id="dd" class="wrapper-dropdown-2">￥<span id="detail">0.00</span>元
 			  	   	<ul class="dropdown">
 							<li ><span id="oncart">你的购物车中没有商品</span>
@@ -120,48 +123,106 @@
 	     </div>	
  <div class="main" >
     <div class="content">
-     	<div class="row">
-          <div class="col-lg-1"><input type="checkbox" value="1" id="allSelBox">全选</div>
-          <div class="col-lg-5">商品信息</div>
-          <div class="col-lg-1">单价</div>
-          <div class="col-lg-2">数量</div>
-          <div class="col-lg-2">金额</div>
-          <div class="col-lg-1">操作</div>
-        </div>
-        <hr color="#333333"/>
-      <form id="btmform" method="post" action="${pageContext.request.contextPath }/order/toorder">
-        <input type="hidden" name="uid" value="${user.id }" />
-        <c:forEach items="${cart }" var="c">
-        	<div class="row">
-	           <div class="col-lg-1"><input type="checkbox" value="${c.pid }" class="shopp" name="pid"></div>
-	           <div class="col-lg-2"><img width="50px" height="50px" src="${c.product.image }"></div>
-	           <div class="col-lg-3">${c.product.name }:${c.product.pdesc }</div>
-	           <div class="col-lg-1">￥<span>${c.product.shop_price }</span></div>
-	           <div class="col-lg-2 a">
-	          	<input class="jian" type="button" value="-">
-	            <input type="text" size="2" value="${c.num }" name="count" class="count">
-	            <input class="jia" type="button" value="+">
-	          </div>
-             <div class="col-lg-2 b">￥<span>${c.subtotal }</span>元</div>
-             <div class="col-lg-1"><a href="#" class="deletecart" pid="${c.product.id }">删除</a>
-             </div>
-        </div>
-        <hr color="#333333"/>
-        </c:forEach>
-       </form>
+	<div style="width:1200px;margin:auto;">
+		<div id="address" class="address" style="margin-top: 20px;" data-spm="2">
+		<h3 style="font-size:24px">确认收货地址
+		 <span class="manage-address">
+		 <a href="#" title="管理我的收货地址"
+		 class="J_MakePoint" data-point-url="http://log.mmstat.com/buy.1.7">管理收货地址</a>
+		 </span>
+		</h3>
+		<ul id="address-list" class="address-list">
+		    <li class="J_Addr J_MakePoint clearfix" id="dizi">
+		        
+		   </li>
+		 </ul>
+		<ul id="J_MoreAddress" class="address-list hidden">	     
+		 </ul>
+		
+		<div class="address-bar">
+		 <a href="#" class="new J_MakePoint" id="J_NewAddressBtn">使用新地址</a>
+		 </div>
+		</div>
+		<div>
+		 <h3 class="dib" style="font-size:24px">确认订单信息</h3>
+		 <table cellspacing="0" cellpadding="0" class="order-table" id="J_OrderTable" summary="统一下单订单信息区域">
+		 <thead>
+		 <tr>
+		 <th class="s-title">商品<hr/></th>
+		 <th class="s-price">单价(元)<hr/></th>
+		 <th class="s-amount">数量<hr/></th>
+		 <th class="s-agio">优惠方式(元)<hr/></th>
+		 <th class="s-total">小计(元)<hr/></th>
+		 </tr>
+		 </thead>
+		<tbody data-spm="3" class="J_Shop" data-tbcbid="0" data-outorderid="47285539868"  data-isb2c="false" data-postMode="2" data-sellerid="1704508670">
+		 <c:forEach items="${list }" var="c">
+		 	<tr class="item" data-lineid="19614514619:31175333266:35612993875" data-pointRate="0">
+		     <td class="s-title">
+		       <img height="50px" width="50px" src="${c.product.image }">&nbsp;&nbsp;&nbsp;${c.product.name }
+		    </td>
+		 	<td class="s-price">
+		  	<span class='price '>
+		 	<em class="style-normal-small-black J_ItemPrice"  >${c.product.shop_price }</em>
+		  	</span>
+		<input type="hidden" name="costprice" value="630.00" class="J_CostPrice" />
+		</td>
+		 <td class="s-amount" data-point-url="">
+		    ${c.num }
+		 </td>
+		 <td class="s-agio">
+		       <div class="J_Promotion promotion" data-point-url="">无优惠</div>
+		   </td>
+		 <td class="s-total">
+		   
+		 <span class='price '>
+		 <em class="style-normal-bold-red J_ItemTotal ">${c.subtotal }</em>
+		  </span>
+		 </td>
+		</tr>
+		</c:forEach>
+		<tr class="item-service">
+		 <td colspan="5" class="servicearea" style="display: none"></td>
+		</tr>
+		
+		<tr class="blue-line" style="height: 2px;"><td colspan="5"></td></tr>
+		</tbody>
+		<tfoot>
+		 <tr>
+		 <td colspan="5">
+		
+		<div class="order-go" data-spm="4">
+		<div class="J_AddressConfirm address-confirm">
+		 <div class="kd-popup pop-back" style="margin-bottom: 40px;">
+		 <div class="box">
+		 <div class="bd">
+		 <div class="point-in">   
+		   <em class="t">实付款：</em>  <span class='price g_price '>
+		 <span>&yen;</span><em class="style-large-bold-red"  id="J_ActualFee"  >${total }</em>
+		  </span>
+		</div>
+		
+		  <ul >
+		 <li><em>寄送至:</em><span id="J_AddrConfirm" style="word-break: break-all;"></span></li>
+		 <li><em>收货人:</em><span id="J_AddrNameConfirm"></span></li>
+		 </ul>
+		     </div>
+		 </div>
+		         <a href="${pageContext.request.contextPath }/cart/tocart" style="width:76px;" class="back J_MakePoint" target="_top">返回购物车</a>
+		       <a id="J_Go" class=" btn-go"  data-point-url=""  tabindex="0" title="点击此按钮，提交订单。">提交订单<b class="dpl-button"></b></a>
+		  </div>
+		 </div>
+		 <div class="msg" style="clear: both;">
+		 	<p class="tips naked" style="float:right;padding-right: 0">若价格变动，请在提交订单后联系卖家改价，并查看已买到的宝贝</p>
+		 </div>
+		 </div>
+		 </td>
+		 </tr>
+		 </tfoot>
+		 </table>
+		</div>
     </div>
    </div>
- <div class="panel panel-default">
-  <div class="panel-body">
-   <div class="row">
-           <div class="col-lg-5">总量:<span id="alltotal">0</span></div>
-          <div class="col-lg-5">总价:<span id="allprice">0</span>元</div>
-          <div class="col-lg-2">
-          	<button type="button" class="btn btn-default btn-lg" id="jiesuan">
-  				<span class="glyphicon glyphicon-shopping-cart"  aria-hidden="true"></span> 结算
-			</button>
-          </div>
-        </div>
   </div>
 </div>
    <div class="footer">
@@ -182,13 +243,15 @@
 	</script>
     <a href="#" id="toTop"><span id="toTopHover"> </span></a>
 </body>
+<script src="${pageContext.request.contextPath }/layer/layer.js"></script>
 <script>
 $(function(){
 	dd();
+	address();
+	aa();
 	$.ajax({
 		url:"http://restapi.amap.com/v3/ip?key=6830bd278765a3715bda9c4de2b972d3",
 		success:function(e){
-			console.log(e);
 			var city=e.city;
 			var province=e.province;
 			$("#city").text(province+city);
@@ -202,87 +265,6 @@ $(function(){
 					}
 			})	
 		}
-	})
-	$("#allSelBox").click(function(){
-		 var flg = this.checked; 	
-		$(".shopp").each(function(){
-			    this.checked = flg;
-		});
-		all();
-	});
-	$(".shopp").click(function(){
-		var i=0;
-		var j=0;
-		$(".shopp").each(function(){
-			if(this.checked==true){
-				i+=1;
-			}
-			j+=1;	
-		});
-		if(i!=j){
-			$("#allSelBox").attr("checked",false);
-		}else{
-			$("#allSelBox").attr("checked",true);
-		}
-		all();
-	})
-	//计算总钱，总数量
-	function all(){
-		var i=0;
-		var j=0;
-		$(".shopp").each(function(){
-			if(this.checked==true){
-				var a=$(this).parent().siblings(".a").find(".count").val();
-				i+=parseInt(a);
-				var b=$(this).parent().siblings(".b").find("span").text();
-				j+=parseFloat(b);
-			}
-		});
-		$("#alltotal").text(i);
-		$("#allprice").text(j);
-	}
-	$(".jian").click(function(){
-		var oldcount=$(this).next().val();
-		if(oldcount>1){
-			$(this).next().val(parseInt(oldcount)-1);
-		}else{
-			$(this).next().val(1);
-		}
-		var newcount=$(this).next().val();
-		var shop_price=$(this).parent().prev().find("span").text();
-		var s=parseFloat(newcount)*parseFloat(shop_price);
-		$(this).parent().next().find("span").text(parseFloat(s));
-		var pid=$(this).parent().siblings(".col-lg-1").find(".shopp").val();
-		if(parseFloat(oldount)>1){
-			$.ajax({
-				type:"post",
-				url:"${pageContext.request.contextPath }/cart/jian",
-				data:{"pid":pid,"shop_price":shop_price},
-				success:function(result){
-				}
-			})
-		}
-		all();
-		dd();
-	})
-	$(".jia").click(function(){
-		var oldcount=$(this).prev().val();
-		$(this).prev().val(parseInt(oldcount)+1);
-		var newcount=$(this).prev().val();
-		var shop_price=$(this).parent().prev().find("span").text();
-		var s=parseFloat(newcount)*parseFloat(shop_price);
-		$(this).parent().next().find("span").text(parseFloat(s));
-			
-		var pid=$(this).parent().siblings(".col-lg-1").find(".shopp").val();
-		$.ajax({
-			type:"post",
-			url:"${pageContext.request.contextPath }/cart/jia",
-			data:{"pid":pid,"shop_price":shop_price},
-			success:function(result){
-			}
-		})
-		all();
-		dd();
 	})
 	/**
 	*购物时页面头部显示金额随购物车的改变而改变金额
@@ -309,34 +291,71 @@ $(function(){
 	       			$("#cartData").html(tableContent);
         		}
         	}
-        });
-		
+        });	
 	}
-	//删除购物车的商品
-	$(".deletecart").click(function(){
-		var pid=$(this).attr("pid");
-		var $s=$(this).parents(".row");
-		layer.confirm("确认移出购物车吗？",  {icon: 3, title:'提示'}, function(cindex){
+	function address(){
+		var uid=$("#uid").val();
+		$.ajax({
+			type:"post",
+			url:"${pageContext.request.contextPath }/address/getaddress",
+			data:{"uid":uid,"data":new Date()},
+			async:false,
+			success:function(result){
+        		var tableContent="";
+				$.each(result,function(i, c){  
+					tableContent += '<div class="address-info">';
+					if(i==0){
+						tableContent +='<input class="address2" type="radio" checked="checked" value="'+c.id+'" name="a">'+'<span class="address">'+c.address+'</span>&nbsp;'+'<span class="name">'+c.name+'</span>&nbsp;'+'<span class="tel">'+c.tel+'</span>';
+					}else{
+						tableContent +='<input class="address2" type="radio"  value="'+c.id+'" name="a">'+'<span class="address">'+c.address+'</span>&nbsp;'+'<span class="name">'+c.name+'</span>&nbsp;'+'<span class="tel">'+c.tel+'</span>';
+					}
+					tableContent += '</div>';
+				});
+       			$("#dizi").html(tableContent);
+			}
+		})
+	}
+	//刷新下面地址哪些
+	function aa(){
+		$(".address2").each(function(){
+			var fal=this.checked;
+			if(fal){
+				var address=$(this).siblings(".address").text();
+				var name=$(this).siblings(".name").text();
+				var tel=$(this).siblings(".tel").text();
+				$("#J_AddrConfirm").text(address);
+				$("#J_AddrNameConfirm").text(name+"    "+tel);
+			}
+		})
+	}
+	$(".address2").click(function(){
+		aa();
+	})
+	
+	$("#J_Go").click(function(){
+		var total=$("#J_ActualFee").text();
+		var aid;
+		$(".address2").each(function(){
+			if(this.checked==true){
+				aid=$(this).val();
+			}
+		})
+		var loadingIndex = null;
+		layer.confirm("确认要提交吗",  {icon: 3, title:'提示'}, function(cindex){
 			layer.close(cindex);
-			var loadingIndex=null;
 			$.ajax({
 				type:"post",
-		    	url:"${pageContext.request.contextPath }/cart/removecart",
-		    	data:{"pid":pid},
+		    	url:"${pageContext.request.contextPath }/order/settleorder",
+		    	data:{"aid":aid,"total":total},
 		    	beforeSend : function(){
-        			loadingIndex = layer.msg('移出中', {icon: 16});
+        			loadingIndex = layer.msg('提交中', {icon: 16});
         		},
 		    	success:function (result){
 		    		layer.close(loadingIndex);
 		    		if(result.success){
-						layer.msg("移出成功", {time:2000, icon:6, shift:6}, function(){
-                        	
-                        });
-						$s.remove();;
-						all();
-						dd();
+		    			window.location.href = "${pageContext.request.contextPath }/store/index";
 		    		}else{
-		    			layer.msg("移出失败", {time:2000, icon:5, shift:6}, function(){
+		    			layer.msg("提交失败", {time:2000, icon:5, shift:6}, function(){
                         	
                         });
 		    		}
@@ -346,10 +365,6 @@ $(function(){
 		}, function(cindex){
 			
 		});
-		return false;
-	})
-	$("#jiesuan").click(function(){
-		$("#btmform").submit();
 	})
 })
 </script>

@@ -23,7 +23,7 @@
       	<label>
         	<input type="password" name="password" id="password" class="txt_input" o>
       	</label>
-  		<p class="forgot"><a id="iforget" href="javascript:void(0);">没有账号?注册</a></p>
+  		<p class="forgot"><a id="iforget" href="${pageContext.request.contextPath }/user/register">没有账号?注册</a></p>
   		<div class="rem_sub">
             <div class="rem_sub_l">
                 <input type="checkbox" name="checkbox" id="save_me">
@@ -85,5 +85,5 @@
 	 })
 	 
  })
-    </script>
+</script>
 </html>

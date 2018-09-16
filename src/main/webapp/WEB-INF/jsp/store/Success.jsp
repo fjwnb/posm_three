@@ -1,4 +1,4 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -17,6 +17,12 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/global.css">
 <script src="${pageContext.request.contextPath }/js/slides.min.jquery.js"></script>
 <script src="${pageContext.request.contextPath }/layer/layer.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/base.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/buyConfirm.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/checkOut.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/public.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/tasp.css" />
+<link href="${pageContext.request.contextPath }/css/orderconfirm.css" rel="stylesheet" />
 <style type="text/css">
 	.main .content .row{
 		margin:40px 0px;
@@ -58,6 +64,7 @@
 				<a href="${pageContext.request.contextPath }/store/index"><img src="${pageContext.request.contextPath }/images/logo.png" alt="" /></a>
 			</div>
 			 <div class="cart">
+			 	  <input type="hidden" id="uid" value="${user.id}"/>
 			  	  <p>欢迎来到大众商城! <span>${user.name}</span><div id="dd" class="wrapper-dropdown-2">￥<span id="detail">0.00</span>元
 			  	   	<ul class="dropdown">
 							<li ><span id="oncart">你的购物车中没有商品</span>
@@ -120,48 +127,24 @@
 	     </div>	
  <div class="main" >
     <div class="content">
-     	<div class="row">
-          <div class="col-lg-1"><input type="checkbox" value="1" id="allSelBox">全选</div>
-          <div class="col-lg-5">商品信息</div>
-          <div class="col-lg-1">单价</div>
-          <div class="col-lg-2">数量</div>
-          <div class="col-lg-2">金额</div>
-          <div class="col-lg-1">操作</div>
-        </div>
-        <hr color="#333333"/>
-      <form id="btmform" method="post" action="${pageContext.request.contextPath }/order/toorder">
-        <input type="hidden" name="uid" value="${user.id }" />
-        <c:forEach items="${cart }" var="c">
-        	<div class="row">
-	           <div class="col-lg-1"><input type="checkbox" value="${c.pid }" class="shopp" name="pid"></div>
-	           <div class="col-lg-2"><img width="50px" height="50px" src="${c.product.image }"></div>
-	           <div class="col-lg-3">${c.product.name }:${c.product.pdesc }</div>
-	           <div class="col-lg-1">￥<span>${c.product.shop_price }</span></div>
-	           <div class="col-lg-2 a">
-	          	<input class="jian" type="button" value="-">
-	            <input type="text" size="2" value="${c.num }" name="count" class="count">
-	            <input class="jia" type="button" value="+">
-	          </div>
-             <div class="col-lg-2 b">￥<span>${c.subtotal }</span>元</div>
-             <div class="col-lg-1"><a href="#" class="deletecart" pid="${c.product.id }">删除</a>
-             </div>
-        </div>
-        <hr color="#333333"/>
-        </c:forEach>
-       </form>
-    </div>
-   </div>
- <div class="panel panel-default">
-  <div class="panel-body">
-   <div class="row">
-           <div class="col-lg-5">总量:<span id="alltotal">0</span></div>
-          <div class="col-lg-5">总价:<span id="allprice">0</span>元</div>
-          <div class="col-lg-2">
-          	<button type="button" class="btn btn-default btn-lg" id="jiesuan">
-  				<span class="glyphicon glyphicon-shopping-cart"  aria-hidden="true"></span> 结算
-			</button>
-          </div>
-        </div>
+		<div class="order-info">
+                <div class="msg">
+                    <h3>您的已经购物成功!</h3>
+                    <p></p>
+                     <p class="post-date">7天以内发货</p>
+                </div>
+                <div class="info">
+                    <p>
+                    	金额：<span class="pay-total">${total }</span>
+                    </p>
+                    <p>订单：${coding }</p>
+                    <p>配送：${name }<span class="line">/</span>${tel }</span>  ${address }
+                     </p>
+                </div>
+                <div class="icon-box">
+                    <i class="iconfont"><img src="${pageContext.request.contextPath }/images/yes_ok.png"></i>
+                </div>
+       </div>
   </div>
 </div>
    <div class="footer">
@@ -182,13 +165,13 @@
 	</script>
     <a href="#" id="toTop"><span id="toTopHover"> </span></a>
 </body>
+<script src="${pageContext.request.contextPath }/layer/layer.js"></script>
 <script>
 $(function(){
 	dd();
 	$.ajax({
 		url:"http://restapi.amap.com/v3/ip?key=6830bd278765a3715bda9c4de2b972d3",
 		success:function(e){
-			console.log(e);
 			var city=e.city;
 			var province=e.province;
 			$("#city").text(province+city);
@@ -202,87 +185,6 @@ $(function(){
 					}
 			})	
 		}
-	})
-	$("#allSelBox").click(function(){
-		 var flg = this.checked; 	
-		$(".shopp").each(function(){
-			    this.checked = flg;
-		});
-		all();
-	});
-	$(".shopp").click(function(){
-		var i=0;
-		var j=0;
-		$(".shopp").each(function(){
-			if(this.checked==true){
-				i+=1;
-			}
-			j+=1;	
-		});
-		if(i!=j){
-			$("#allSelBox").attr("checked",false);
-		}else{
-			$("#allSelBox").attr("checked",true);
-		}
-		all();
-	})
-	//计算总钱，总数量
-	function all(){
-		var i=0;
-		var j=0;
-		$(".shopp").each(function(){
-			if(this.checked==true){
-				var a=$(this).parent().siblings(".a").find(".count").val();
-				i+=parseInt(a);
-				var b=$(this).parent().siblings(".b").find("span").text();
-				j+=parseFloat(b);
-			}
-		});
-		$("#alltotal").text(i);
-		$("#allprice").text(j);
-	}
-	$(".jian").click(function(){
-		var oldcount=$(this).next().val();
-		if(oldcount>1){
-			$(this).next().val(parseInt(oldcount)-1);
-		}else{
-			$(this).next().val(1);
-		}
-		var newcount=$(this).next().val();
-		var shop_price=$(this).parent().prev().find("span").text();
-		var s=parseFloat(newcount)*parseFloat(shop_price);
-		$(this).parent().next().find("span").text(parseFloat(s));
-		var pid=$(this).parent().siblings(".col-lg-1").find(".shopp").val();
-		if(parseFloat(oldcount)>1){
-			$.ajax({
-				type:"post",
-				url:"${pageContext.request.contextPath }/cart/jian",
-				data:{"pid":pid,"shop_price":shop_price},
-				success:function(result){
-				}
-			})
-		}
-		all();
-		dd();
-	})
-	$(".jia").click(function(){
-		var oldcount=$(this).prev().val();
-		$(this).prev().val(parseInt(oldcount)+1);
-		var newcount=$(this).prev().val();
-		var shop_price=$(this).parent().prev().find("span").text();
-		var s=parseFloat(newcount)*parseFloat(shop_price);
-		$(this).parent().next().find("span").text(parseFloat(s));
-			
-		var pid=$(this).parent().siblings(".col-lg-1").find(".shopp").val();
-		$.ajax({
-			type:"post",
-			url:"${pageContext.request.contextPath }/cart/jia",
-			data:{"pid":pid,"shop_price":shop_price},
-			success:function(result){
-			}
-		})
-		all();
-		dd();
 	})
 	/**
 	*购物时页面头部显示金额随购物车的改变而改变金额
@@ -309,48 +211,8 @@ $(function(){
 	       			$("#cartData").html(tableContent);
         		}
         	}
-        });
-		
+        });	
 	}
-	//删除购物车的商品
-	$(".deletecart").click(function(){
-		var pid=$(this).attr("pid");
-		var $s=$(this).parents(".row");
-		layer.confirm("确认移出购物车吗？",  {icon: 3, title:'提示'}, function(cindex){
-			layer.close(cindex);
-			var loadingIndex=null;
-			$.ajax({
-				type:"post",
-		    	url:"${pageContext.request.contextPath }/cart/removecart",
-		    	data:{"pid":pid},
-		    	beforeSend : function(){
-        			loadingIndex = layer.msg('移出中', {icon: 16});
-        		},
-		    	success:function (result){
-		    		layer.close(loadingIndex);
-		    		if(result.success){
-						layer.msg("移出成功", {time:2000, icon:6, shift:6}, function(){
-                        	
-                        });
-						$s.remove();;
-						all();
-						dd();
-		    		}else{
-		    			layer.msg("移出失败", {time:2000, icon:5, shift:6}, function(){
-                        	
-                        });
-		    		}
-		    		
-		    	}
-			})
-		}, function(cindex){
-			
-		});
-		return false;
-	})
-	$("#jiesuan").click(function(){
-		$("#btmform").submit();
-	})
 })
 </script>
 </html>

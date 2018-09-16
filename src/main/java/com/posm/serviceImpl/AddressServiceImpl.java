@@ -20,5 +20,9 @@ public class AddressServiceImpl implements AddressService {
 	public List<Address> getByuid(Integer uid) {
 		return addressDao.getByuid(uid);
 	}
+	@Override
+	public Address getByid(Integer id) {
+		return addressDao.getByid(id);
+	}
 
 }

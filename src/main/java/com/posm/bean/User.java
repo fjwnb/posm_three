@@ -73,4 +73,11 @@ public class User {
 	public void setCode(String code) {
 		this.code = code;
 	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", name=" + name + ", email="
+				+ email + ", tel=" + tel + ", birthday=" + birthday + ", sex=" + sex + ", state=" + state + ", code="
+				+ code + "]";
+	}
+	
 }

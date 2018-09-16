@@ -6,4 +6,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="userLogin" resultType="User">
 		select * from user where username=#{username}  and password=#{password}
 	</select>
+	<select id="Ajaxget" resultType="User">
+		select * from user where username=#{username}
+	</select>
+	<insert id="add" parameterType="User">
+		insert into user(username,name,password,email,tel,birthday)
+		values(#{username},#{name},#{password},#{email},#{tel},#{birthday})
+	</insert>
 </mapper>

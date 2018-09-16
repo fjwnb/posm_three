@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.posm.bean.User;
 import com.posm.service.UserService;
 import com.posm.util.AJAXResult;
+import com.posm.util.BaseController;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController{
 	private Logger log=Logger.getLogger(UserController.class);
 	@Autowired
 	private UserService userService;
@@ -41,4 +42,25 @@ public class UserController {
 		session.removeAttribute("cart");
 		return "redirect:/store/index";
 	}
+	@RequestMapping("/register")
+	public String register() {
+		return "userregister";
+	}
+	@ResponseBody
+	@RequestMapping("/add")
+	public Object AjaxandAdd(User user) {
+		String ressult="";
+		User u=userService.Ajaxget(user.getUsername());
+		if(u!=null) {
+			ressult="have";
+		}else {
+			if(userService.add(user)>0) {
+				ressult="true";
+			}else {
+				ressult="false";
+			}
+		}
+		return ressult;
+	}
+	
 }

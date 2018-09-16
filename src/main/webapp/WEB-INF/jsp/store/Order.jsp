@@ -9,7 +9,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link href="${pageContext.request.contextPath }/css/style.css" rel="stylesheet" type="text/css" media="all"/>
  <link rel="stylesheet" href="${pageContext.request.contextPath }/bootstrap/css/bootstrap.min.css">
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.7.2.min.js"></script> 
+<script src="${pageContext.request.contextPath }/jquery/jquery-2.1.1.min.js"></script>
+    <script src="${pageContext.request.contextPath }/bootstrap/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/bootstrap/css/bootstrap.min.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/move-top.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/easing.js"></script>
 <script src="${pageContext.request.contextPath }/js/easyResponsiveTabs.js" type="text/javascript"></script>
@@ -140,7 +142,39 @@
 		 </ul>
 		
 		<div class="address-bar">
-		 <a href="#" class="new J_MakePoint" id="J_NewAddressBtn">使用新地址</a>
+		 <button class="new J_MakePoint" id="J_NewAddressBtn" data-toggle="modal" data-target="#Add">使用新地址</button>
+		 	<!-- 增加新地址的静态框 start-->
+		 		<div class="modal fade" id="Add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h4 class="modal-title" id="myModalLabel">添加地址</h4>
+					      </div>
+					      <div class="modal-body">
+					      	<form method="post"  enctype="multipart/form-data">
+								<div class="form-group">
+									<label >收货人</label>
+									<input type="text" class="form-control"  id="name" placeholder="收货人姓名">
+								</div>
+								<div class="form-group">
+									<label >联系电话</label>
+									<input type="text" class="form-control"  id="tel" placeholder="联系电话">
+								</div>
+								<div class="form-group">
+									<label >地址</label>
+									<input type="text" class="form-control"  id="asdas" placeholder="地址">
+								</div>
+							</form>
+					      </div>
+					      	<div class="modal-footer">
+					        	<button id="addclose" type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+					        	<button type="button" id="addaddress" class="btn btn-primary">添加</button>
+					      	</div>
+					    </div>
+					  </div>
+				</div>
+		 	<!--end  -->
 		 </div>
 		</div>
 		<div>
@@ -293,28 +327,7 @@ $(function(){
         	}
         });	
 	}
-	function address(){
-		var uid=$("#uid").val();
-		$.ajax({
-			type:"post",
-			url:"${pageContext.request.contextPath }/address/getaddress",
-			data:{"uid":uid,"data":new Date()},
-			async:false,
-			success:function(result){
-        		var tableContent="";
-				$.each(result,function(i, c){  
-					tableContent += '<div class="address-info">';
-					if(i==0){
-						tableContent +='<input class="address2" type="radio" checked="checked" value="'+c.id+'" name="a">'+'<span class="address">'+c.address+'</span>&nbsp;'+'<span class="name">'+c.name+'</span>&nbsp;'+'<span class="tel">'+c.tel+'</span>';
-					}else{
-						tableContent +='<input class="address2" type="radio"  value="'+c.id+'" name="a">'+'<span class="address">'+c.address+'</span>&nbsp;'+'<span class="name">'+c.name+'</span>&nbsp;'+'<span class="tel">'+c.tel+'</span>';
-					}
-					tableContent += '</div>';
-				});
-       			$("#dizi").html(tableContent);
-			}
-		})
-	}
+	
 	//刷新下面地址哪些
 	function aa(){
 		$(".address2").each(function(){
@@ -353,10 +366,14 @@ $(function(){
 		    	success:function (result){
 		    		layer.close(loadingIndex);
 		    		if(result.success){
-		    			window.location.href = "${pageContext.request.contextPath }/store/index";
+		    			var total=result.total;
+		    			var coding=result.coding;
+		    			var name=result.name;
+		    			var tel=result.tel;
+		    			var address=result.address;
+		    			window.location.href = "${pageContext.request.contextPath }/order/success?total="+total+"&coding="+coding+"&name="+name+"&tel="+tel+"&address="+address;
 		    		}else{
-		    			layer.msg("提交失败", {time:2000, icon:5, shift:6}, function(){
-                        	
+		    			layer.msg("提交失败", {time:2000, icon:5, shift:6}, function(){   	
                         });
 		    		}
 		    		
@@ -366,6 +383,82 @@ $(function(){
 			
 		});
 	})
+	
+	//添加
+    $("#addaddress").click(function(){
+    	layer.confirm("确认要添加吗",  {icon: 3, title:'提示'}, function(cindex){
+    		layer.close(cindex);
+			var name=$("#name").val();
+			var tel=$("#tel").val();
+			var address=$("#asdas").val();
+			if(name ==""){
+				layer.msg("收货人不能为空，请输入", {time:2000, icon:5, shift:6}, function(){
+	            });
+	        	return;
+			}
+			if(tel ==""){
+				layer.msg("联系电话不能为空，请输入", {time:2000, icon:5, shift:6}, function(){
+	            });
+	        	return;
+			}
+			if(address==""){
+				layer.msg("地址不能为空，请输入", {time:2000, icon:5, shift:6}, function(){
+	            });
+	        	return;
+			}
+			var loadingIndex = null;
+	        $.ajax({
+	        	type : "POST",
+	        	url  : "${pageContext.request.contextPath }/address/add",
+	        	data : {
+	        		"name" :name,"tel":tel,"address":address	        
+	        	},
+	        	async:false,
+	        	beforeSend : function(){
+	        		loadingIndex = layer.msg('处理中', {icon: 16});
+	        	},
+	        	success : function(result) {
+	        		layer.close(loadingIndex);	  
+	        		if (result.success) {
+	        			$("#addclose").click();
+	        			location.reload();
+	        		} else{
+						layer.msg("抱歉，添加失败", {time:2000, icon:2, shift:6}, function(){
+
+	                    });
+	        		}
+	        	}
+	        });
+		}, function(cindex){
+			
+		});
+    })
 })
+function aaSa(){
+	alert(1);
+}
+//显示地址  
+function address(){
+		var uid=$("#uid").val();
+		$.ajax({
+			type:"post",
+			url:"${pageContext.request.contextPath }/address/getaddress",
+			data:{"uid":uid,"data":new Date()},
+			async:false,
+			success:function(result){
+	    		var tableContent="";
+				$.each(result,function(i, c){  
+					tableContent += '<div class="address-info">';
+					if(i==0){
+						tableContent +='<input class="address2" type="radio" checked="checked" value="'+c.id+'" name="a">'+'<span class="address">'+c.address+'</span>&nbsp;'+'<span class="name">'+c.name+'</span>&nbsp;'+'<span class="tel">'+c.tel+'</span>';
+					}else{
+						tableContent +='<input class="address2" type="radio"  value="'+c.id+'" name="a">'+'<span class="address">'+c.address+'</span>&nbsp;'+'<span class="name">'+c.name+'</span>&nbsp;'+'<span class="tel">'+c.tel+'</span>';
+					}
+					tableContent += '</div>';
+				});
+	   			$("#dizi").html(tableContent);
+			}
+	})
+}
 </script>
 </html>

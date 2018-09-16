@@ -14,10 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.posm.bean.Address;
 import com.posm.bean.Cart;
 import com.posm.bean.OrderItem;
 import com.posm.bean.Orders;
 import com.posm.bean.Product;
+import com.posm.service.AddressService;
 import com.posm.service.CartService;
 import com.posm.service.OrderItemService;
 import com.posm.service.OrdersService;
@@ -37,6 +39,8 @@ public class OrderController {
 	private OrdersService ordersService;
 	@Autowired
 	private OrderItemService orderItemService;
+	@Autowired
+	private AddressService addressService;
 	//用户勾选购物车商品以后跳转到的页面
 	@RequestMapping("/toorder")
 	public String order(Integer[] pid,Integer uid,Model model,HttpSession session) {
@@ -62,7 +66,8 @@ public class OrderController {
 	@ResponseBody
 	@RequestMapping("/settleorder")
 	public Object settleOrder(Integer aid,double total,HttpSession session) {
-		AJAXResult ajaxResult=new AJAXResult();
+		/*AJAXResult ajaxResult=new AJAXResult();*/
+		Map<String, Object> result=new HashMap<String,Object>();
 		try {
 			
 			Integer uid=(Integer) session.getAttribute("uid");
@@ -91,12 +96,29 @@ public class OrderController {
 			}
 			//订单全部完成 删除已经购物车里面下单了的商品
 			cartService.deletePiliang(map);
-			
-			ajaxResult.setSuccess(true);
+			result.put("success", true);
+			/*ajaxResult.setSuccess(true);*/
+			//把要显示的一些数据放到成功页面
+			Address address=addressService.getByid(aid);
+			result.put("tel", address.getTel());
+			result.put("name", address.getName());
+			result.put("address", address.getAddress());
+			result.put("total", total);
+			result.put("coding", orders.getCoding());
 		} catch (Exception e) {
-			ajaxResult.setSuccess(false);
+			result.put("success", false);
 		}	
-		return ajaxResult;
+		return result;
+	}
+	@RequestMapping("/success")
+	public String success(String tel,String name,String address,double total,
+			String coding,Model model) {
+		model.addAttribute("tel", tel);
+		model.addAttribute("name", name);
+		model.addAttribute("address", address);
+		model.addAttribute("total", total);
+		model.addAttribute("coding", coding);
+		return "store/Success";
 	}
 	
 	

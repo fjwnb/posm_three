@@ -9,4 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getByuid" resultType="Address">
 		select * from address where uid=#{uid}
 	</select>
+	<select id="getByid" resultType="Address">
+		select * from address where id=#{id}
+	</select>
 </mapper>

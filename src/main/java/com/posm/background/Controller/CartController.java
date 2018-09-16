@@ -107,6 +107,7 @@ public class CartController {
 	public Object jian(Integer pid,double shop_price,HttpSession session) {
 		User user=(User) session.getAttribute("user");
 		int uid=user.getId();
+		System.err.println(1);
 		cartService.jian(uid, pid,shop_price);
 		return true;
 	}

@@ -155,15 +155,18 @@
 					      	<form method="post"  enctype="multipart/form-data">
 								<div class="form-group">
 									<label >收货人</label>
-									<input type="text" class="form-control"  id="name" placeholder="收货人姓名">
+									<input type="text" autocomplete="off" class="form-control"  id="name" placeholder="收货人姓名">
+									<font></font>
 								</div>
 								<div class="form-group">
 									<label >联系电话</label>
-									<input type="text" class="form-control"  id="tel" placeholder="联系电话">
+									<input type="text" autocomplete="off" class="form-control"  id="tel" placeholder="联系电话">
+									<font></font>
 								</div>
 								<div class="form-group">
 									<label >地址</label>
-									<input type="text" class="form-control"  id="asdas" placeholder="地址">
+									<input type="text" autocomplete="off" class="form-control"  id="asdas" placeholder="地址">
+									<font></font>
 								</div>
 							</form>
 					      </div>
@@ -383,7 +386,33 @@ $(function(){
 			
 		});
 	})
-	
+	$("#name").focusout(function(){
+    		$(this).next().text("");
+    		if($(this).val()==""){
+    			 $(this).next().attr("color","red");
+    			 $(this).next().text("收货人不能为空!");
+    		}
+    	})
+     $("#tel").focusout(function(){
+		 $(this).next().text("");
+		 var tel=/^1\d{10}$/;
+		 if($(this).val()==""){
+			 $(this).next().attr("color","red");
+			 $(this).next().text("抱歉手机不能为空!");
+		 }else{
+			 if(!tel.test($(this).val())){
+				 $(this).next().attr("color","red");
+				 $(this).next().text("抱歉手机格式错误!");
+			 }
+		 }	 
+	 })
+    	$("#asdas").focusout(function(){
+    		$(this).next().text("");
+    		if($(this).val()==""){
+    			 $(this).next().attr("color","red");
+    			 $(this).next().text("收货地址不能为空!");
+    		}
+    	})
 	//添加
     $("#addaddress").click(function(){
     	layer.confirm("确认要添加吗",  {icon: 3, title:'提示'}, function(cindex){

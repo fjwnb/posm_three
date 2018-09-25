@@ -17,7 +17,7 @@
 	<form>
   		<h2>用户名</h2>
         <label>
-        <input type="text" id="username" class="txt_input txt_input2" >
+        <input type="text" autocomplete="off" id="username" class="txt_input txt_input2" >
          </label>
       	<h2>密码</h2>
       	<label>

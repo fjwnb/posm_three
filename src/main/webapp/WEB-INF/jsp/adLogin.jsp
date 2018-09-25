@@ -6,7 +6,23 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>大众商城管理员登录</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/csslogin/style.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/csslogin/body.css"/> 
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/csslogin/body.css"/>
+<style type="text/css">
+	.dl{
+		background-color:#337ab7;
+		color:#fff;
+		border-color:#2e6da4;
+		display:inline-block;
+		padding: 6px 12px;
+	    margin-bottom: 0;
+	    font-size: 14px;
+	    font-weight: 400;
+	    line-height: 1.42857143;
+	    text-align: center;
+	    white-space: nowrap;
+	    vertical-align: middle;
+	}
+</style>
 </head>
 <body>
 <div class="container">
@@ -14,13 +30,13 @@
 		<form action="">
 			<h1>管理员登录</h1>
 			<div>
-				<input type="text" placeholder="账户" id="username" />
+				<input type="text" autocomplete="off" placeholder="账户" id="username" />
 			</div>
 			<div>
 				<input type="password" placeholder="密码" id="password" />
 			</div> 
 			<div>
-				<input type="button" onclick="dologin()" value="登录" class="btn btn-primary" />
+				<input type="button" onclick="dologin()" value="登录" class="dl"/>
 			</div>
 		</form>
 	</section>

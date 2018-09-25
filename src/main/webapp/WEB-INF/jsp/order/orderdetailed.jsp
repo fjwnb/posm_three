@@ -12,13 +12,12 @@
 </head>
 <body>
 <table class="table table-hover">
-  <thead>
-  	<th align="center">#</th>
-  	<th align="center">商品</th>
-  	<th align="center">购买数量</th>
-  	<th align="center">小计</th>
-  </thead>
-  <tbody>
+  <tr align="center">
+  	<td>#</td>
+  	<td>商品</td>
+  	<td>购买数量</td>
+  	<td >小计</td>
+  </tr>
   	<c:forEach items="${list }" var="o" varStatus="s">
   		<tr align="center">
   			<td>${s.count }</td> 			
@@ -27,7 +26,6 @@
   			<td>${o.subtotal }</td>
   		</tr>
   	</c:forEach>
-  </tbody>
 </table>
 </body>
 </html>

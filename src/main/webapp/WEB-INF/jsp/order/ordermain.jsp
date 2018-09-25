@@ -59,42 +59,6 @@
             </table>
             </form>
   </div>
-<!-- 修改静态框 -->
-  <div class="modal fade" id="updateModa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">商品编辑</h4>
-      </div>
-      <div class="modal-body">
-    	 <form>
-				  <div class="form-group">
-					<label for="exampleInputPassword1">市场价</label>
-					<input type="text" class="form-control"  id="umarket_price" placeholder="请输入市场价">
-				  </div>
-				  <div class="form-group">
-					<label for="exampleInputPassword1">售价</label>
-					<input type="text" class="form-control"  id="ushop_price" placeholder="请输入售价">
-				  </div>
-				  <div class="form-group">
-					<label for="exampleInputPassword1">日期</label>
-					<input type="date" class="form-control" id="update"  >
-				  </div>
-				  <div class="form-group">
-					<label for="exampleInputPassword1">描述</label>
-					<input type="text" class="form-control"  id="updesc" placeholder="描述一下吧">
-				  </div>
-		</form>
-      </div>
-      <input type="hidden" id="updateid">
-      <div class="modal-footer">
-        <button id="updateclose" type="button" class="btn btn-default" data-dismiss="modal">返回</button>
-        <button type="button" class="btn btn-primary" id="updateproduct">修改</button>
-      </div>
-    </div>
-  </div>
-</div>
 <input type="hidden" id="path" value="${pageContext.request.contextPath }"/>
     <script src="${pageContext.request.contextPath }/jquery/jquery-2.1.1.min.js"></script>
     <script src="${pageContext.request.contextPath }/bootstrap/js/bootstrap.min.js"></script>

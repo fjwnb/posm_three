@@ -13,6 +13,8 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/move-top.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/easing.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/startstop-slider.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/layui/css/layui.css" media="all">
+<script src="${pageContext.request.contextPath }/layui/layui.js"></script>
 </head>
 <body>
   <div class="wrap">
@@ -125,116 +127,106 @@
 	  	     </div>
 					 <div class="header_bottom_right">					 
 					 	 <div class="slider">					     
-							 <div id="slider">
-			                    <div id="mover">
-			                    	<div id="slide-1" class="slide">			                    
-									 <div class="slider-img">
-									     <a href="preview.html"><img src="${pageContext.request.contextPath }/images/slide-1-image.png" alt="learn more" /></a>									    
-									  </div>
-						             	<div class="slider-text">
-		                                 <h1>Clearance<br><span>SALE</span></h1>
-		                                 <h2>UPTo 20% OFF</h2>
-									   <div class="features_list">
-									   	<h4>Get to Know More About Our Memorable Services Lorem Ipsum is simply dummy text</h4>							               
-							            </div>
-							             <a href="preview.html" class="button">Shop Now</a>
-					                   </div>			               
-									  <div class="clear"></div>				
-				                  </div>	
-						             	<div class="slide">
-						             		<div class="slider-text">
-		                                 <h1>Clearance<br><span>SALE</span></h1>
-		                                 <h2>UPTo 40% OFF</h2>
-									   <div class="features_list">
-									   	<h4>Get to Know More About Our Memorable Services</h4>							               
-							            </div>
-							             <a href="preview.html" class="button">Shop Now</a>
-					                   </div>		
-						             	 <div class="slider-img">
-									     <a href="preview.html"><img src="${pageContext.request.contextPath }/images/slide-3-image.jpg" alt="learn more" /></a>
-									  </div>						             					                 
-									  <div class="clear"></div>				
-				                  </div>
-				                  <div class="slide">						             	
-					                  <div class="slider-img">
-									     <a href="preview.html"><img src="${pageContext.request.contextPath }/images/slide-2-image.jpg" alt="learn more" /></a>
-									  </div>
-									  <div class="slider-text">
-		                                 <h1>Clearance<br><span>SALE</span></h1>
-		                                 <h2>UPTo 10% OFF</h2>
-									   <div class="features_list">
-									   	<h4>Get to Know More About Our Memorable Services Lorem Ipsum is simply dummy text</h4>							               
-							            </div>
-							             <a href="preview.html" class="button">Shop Now</a>
-					                   </div>	
-									  <div class="clear"></div>				
-				                  </div>												
-			                 </div>		
-		                </div>
-					 <div class="clear"></div>					       
-		         </div>
-		      </div>
+							  <div  class="layui-carousel" id="test1">
+											  <div carousel-item>
+											    <div>	    
+											    	<a href="${pageContext.request.contextPath }/store/queryStore?id=3">
+											    		<img width="888px" height="384px" src="/images/u=2150341721,2635318083&fm=26&gp=0.jpg">
+											    	</a>    
+											    </div>
+											  	<div>	    
+											    	<a href="${pageContext.request.contextPath }/store/queryStore?id=1">
+											    		<img width="888px" height="384px" src="/images/u=24331504,1898999319&fm=26&gp=0.jpg">
+											    	</a>    
+											    </div>
+											    <div>	    
+											    	<a href="${pageContext.request.contextPath }/store/queryStore?id=4">
+											    		<img width="888px" height="384px" src="/images/u=3344868161,3126701939&fm=27&gp=0.jpg">
+											    	</a>    
+											    </div>
+											    <div>	    
+											    	<a href="${pageContext.request.contextPath }/store/queryStore?id=10">
+											    		<img width="888px" height="384px" src="/images/u=3456250931,2229544457&fm=27&gp=0.jpg">
+											    	</a>    
+											    </div>
+											  </div>
+											</div>
+						             </div>
+						             <script>
+										layui.use('carousel', function(){
+										  var carousel = layui.carousel;
+										  //建造实例
+										  carousel.render({
+										    elem: '#test1'
+										    ,height: '370px' 
+										    ,width: '100%' //设置容器宽度
+										    ,arrow: 'always' //始终显示箭头
+										    //,anim: 'updown' //切换动画方式
+										  });
+										});
+									</script>
+					 	<div class="clear"></div>					       
+		         		</div>
+		      		</div>
 		   <div class="clear"></div>
 		</div>
+		<div class="main">
+	    <div class="content">
+	    	<div class="content_top">
+	    		<div class="heading">
+	    		<h3>热门商品</h3>
+	    		</div>
+	            <div class="see">
+	    			<p><a href="${pageContext.request.contextPath }/store/queryStore?hot=hot">查看所有</a></p>
+	    		</div>
+	    		<div class="clear"></div>
+	    	</div>
+		      <div class="section group">
+		      		<c:forEach items="${list1 }" var="p">
+		      			<div class="grid_1_of_4 images_1_of_4">
+							<a href="${pageContext.request.contextPath }/store/getByid?id=${p.id }"><img width="212px" height="212px"  src="${p.image }"/></a>
+							<h2>${p.name } </h2>
+							<div class="price-details">
+					       		<div class="price-number">
+									<p><span class="rupees">￥${p.shop_price }</span></p>
+						    	</div>
+						       	<div class="add-cart">								
+									<h4><a class="addcart" href="#" addcartid="${p.id }" >添加到购物车</a></h4>
+									</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+		      		</c:forEach>	
+				</div>
+				<div class="content_bottom">
+	    		<div class="heading">
+	    		<h3>超值购物</h3>
+	    		</div>
+	            <div class="see">
+	    			<p><a href="${pageContext.request.contextPath }/store/queryStore?special=special">查看所有</a></p>
+	    		</div>
+	    		<div class="clear"></div>
+	    	</div>
+				<div class="section group">
+					<c:forEach items="${list2 }" var="p">
+						<div class="grid_1_of_4 images_1_of_4">
+							<a href="${pageContext.request.contextPath }/store/getByid?id=${p.id }"><img width="212px" height="212px"  src="${p.image }"/></a>
+							<h2>${p.name } </h2>
+							<div class="price-details">
+					       		<div class="price-number">
+									<p><span class="rupees">￥${p.shop_price }</span></p>
+						    	</div>
+						       	<div class="add-cart">								
+									<h4><a class="addcart" href="#" addcartid="${p.id }">添加到购物车</a></h4>
+									</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+	    </div>
+	 </div>
    </div>
-  
- <div class="main">
-    <div class="content">
-    	<div class="content_top">
-    		<div class="heading">
-    		<h3>热门商品</h3>
-    		</div>
-            <div class="see">
-    			<p><a href="${pageContext.request.contextPath }/store/queryStore?hot=hot">查看所有</a></p>
-    		</div>
-    		<div class="clear"></div>
-    	</div>
-	      <div class="section group">
-	      		<c:forEach items="${list1 }" var="p">
-	      			<div class="grid_1_of_4 images_1_of_4">
-						<a href="${pageContext.request.contextPath }/store/getByid?id=${p.id }"><img width="212px" height="212px"  src="${p.image }"/></a>
-						<h2>${p.name } </h2>
-						<div class="price-details">
-				       		<div class="price-number">
-								<p><span class="rupees">￥${p.shop_price }</span></p>
-					    	</div>
-					       	<div class="add-cart">								
-								<h4><a class="addcart" href="#" addcartid="${p.id }" >添加到购物车</a></h4>
-								</div>
-							<div class="clear"></div>
-						</div>
-					</div>
-	      		</c:forEach>	
-			</div>
-			<div class="content_bottom">
-    		<div class="heading">
-    		<h3>超值购物</h3>
-    		</div>
-            <div class="see">
-    			<p><a href="${pageContext.request.contextPath }/store/queryStore?special=special">查看所有</a></p>
-    		</div>
-    		<div class="clear"></div>
-    	</div>
-			<div class="section group">
-				<c:forEach items="${list2 }" var="p">
-					<div class="grid_1_of_4 images_1_of_4">
-						<a href="${pageContext.request.contextPath }/store/getByid?id=${p.id }"><img width="212px" height="212px"  src="${p.image }"/></a>
-						<h2>${p.name } </h2>
-						<div class="price-details">
-				       		<div class="price-number">
-								<p><span class="rupees">￥${p.shop_price }</span></p>
-					    	</div>
-					       	<div class="add-cart">								
-								<h4><a class="addcart" href="#" addcartid="${p.id }">添加到购物车</a></h4>
-								</div>
-							<div class="clear"></div>
-						</div>
-					</div>
-				</c:forEach>
-			</div>
-    </div>
- </div>
-</div>
    <div class="footer">
    	  <div class="wrap">	    		
       </div>

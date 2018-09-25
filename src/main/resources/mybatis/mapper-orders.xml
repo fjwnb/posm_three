@@ -20,11 +20,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="pageQueryData" resultMap="query">
         select
            a.*,b.address,b.tel,b.name
-        from orders a,address b where a.aid=b.id
+        from orders a,address b where a.aid=b.id 
         <if test="queryText != null and queryText !='' ">
            and a.coding like concat('%', #{queryText},'%')
-        </if>
-        limit #{start}, #{size}
+        </if> ORDER BY a.orderTime DESC
+        limit #{start}, #{size} 
     </select>
     <select id="pageQueryCount" resultType="int">
         select
